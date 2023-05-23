@@ -21,6 +21,8 @@ export default function Todo() {
     //edit state
     const [editTodo, setEditTodo] = useState("");
 
+    const API_URL = "http://localhost:5005/todo";
+
     useEffect(() => {
         fetchAllTodos();
     }, []);
@@ -39,18 +41,18 @@ export default function Todo() {
 
     //fetching all Todos
     const fetchAllTodos = async () => {
-        const response = await axios.get("http://localhost:5005/");
-        setTodos(response.data);
+        const response = await axios.get(API_URL);
+        setTodos(response.data.todoList);
     };
 
     //add new todo function
     const addTodo = async () => {
         if (input) {
             try {
-                const response = await axios.post("http://localhost:5005/add-todo", {
+                const response = await axios.post(API_URL, {
                     todoName: input,
                 });
-                setTodos(response.data);
+                setTodos(response.data.todoList);
             } catch (error) {
                 console.log(error);
             }
@@ -62,12 +64,12 @@ export default function Todo() {
     //delete todo function
     const deleteTodo = async (id) => {
         try {
-            const response = await axios.delete("http://localhost:5005/delete-todo", {
+            const response = await axios.delete(API_URL, {
                 data: {
                     id: id,
                 },
             });
-            setTodos(response.data);
+            setTodos(response.data.todoList);
         } catch (error) {
             console.log(error);
         }
@@ -76,11 +78,11 @@ export default function Todo() {
     //save edited-todo function
     const saveTodo = async (todo) => {
         try {
-            const response = await axios.put("http://localhost:5005/update-todo", {
+            const response = await axios.put(API_URL, {
                 id: todo.id,
                 todoName: editInput,
             });
-            setTodos(response.data);
+            setTodos(response.data.todoList);
         } catch (error) {
             console.log(error);
         }
@@ -90,10 +92,10 @@ export default function Todo() {
     //mark as complete todo function
     const MarkAsCompleted = async (id) => {
         try {
-            const resposne = await axios.patch("http://localhost:5005/complete-todo", {
+            const resposne = await axios.patch(API_URL, {
                 id: id,
             });
-            setTodos(resposne.data);
+            setTodos(resposne.data.todoList);
         } catch (error) {
             console.log(error);
         }

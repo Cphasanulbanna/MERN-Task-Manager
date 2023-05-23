@@ -23,7 +23,7 @@ let TodoList = [
 
 //GET ALL-TODOS API
 app.get("/todo", (req, res) => {
-    res.status(200).json({ data: TodoList });
+    res.status(200).json({ message: "Success", todoList: TodoList });
 });
 
 //ADD-TODO API
@@ -45,7 +45,7 @@ app.post("/todo", (req, res) => {
     };
 
     TodoList.push(newTodo);
-    res.status(200).json({ data: TodoList });
+    res.status(200).json({ message: "Success", todoList: TodoList });
 });
 
 //UPDATE TODO API
@@ -68,7 +68,7 @@ app.put("/todo", (req, res) => {
     //updating todo
     todoToBeUpdated.todo = todoName;
     todoToBeUpdated.isCompleted = isCompleted;
-    res.status(200).json({ data: TodoList });
+    res.status(200).json({ message: "Success", todoList: TodoList });
 });
 
 //COMPLETE TODO API
@@ -90,7 +90,7 @@ app.patch("/todo", (req, res) => {
         todoToBeCompleted.isCompleted = true;
     }
 
-    res.status(200).json({ data: TodoList });
+    res.status(200).json({ message: "Success", todoList: TodoList });
 });
 
 //DELETE TODO
@@ -103,7 +103,7 @@ app.delete("/todo", (req, res) => {
 
     const filteredTodoList = TodoList.filter((todo) => todo.id != id);
     TodoList = filteredTodoList;
-    res.status(200).json({ data: TodoList });
+    res.status(200).json({ message: "Success", todoList: TodoList });
 });
 
 app.all("*", (req, res) => {
