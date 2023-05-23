@@ -90,7 +90,7 @@ export default function Todo() {
     //mark as complete todo function
     const MarkAsCompleted = async (id) => {
         try {
-            const resposne = await axios.put("http://localhost:5005/complete-todo", {
+            const resposne = await axios.patch("http://localhost:5005/complete-todo", {
                 id: id,
             });
             setTodos(resposne.data);

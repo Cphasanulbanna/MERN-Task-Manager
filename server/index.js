@@ -22,12 +22,12 @@ let TodoList = [
 ];
 
 //GET ALL-TODOS API
-app.get("/", (req, res) => {
+app.get("/todo", (req, res) => {
     res.json(TodoList);
 });
 
 //ADD-TODO API
-app.post("/add-todo", (req, res) => {
+app.post("/todo", (req, res) => {
     const { todoName } = req.body;
 
     //id of previous todo
@@ -45,22 +45,30 @@ app.post("/add-todo", (req, res) => {
 });
 
 //UPDATE TODO API
-app.put("/update-todo", (req, res) => {
-    const { id, todoName } = req.body;
+app.put("/todo", (req, res) => {
+    const { id, todoName, isCompleted } = req.body;
+
+    //error handling
+    const keys = [];
+    const allData = Object.entries(req.body); //3 arrays with key and values [], [], []
+    allData.map((eachArray) => eachArray[1] === "" && keys.push(eachArray[0]));
+
+    if (keys.length) {
+        res.json({ message: keys.map((key) => `Field ${key} is required`) });
+    }
 
     //finding index of todo-object to be updated
     const indexOfTodoObject = TodoList.findIndex((todo) => todo.id == id);
     let todoToBeUpdated = TodoList[indexOfTodoObject];
 
-    if (todoName) {
-        //updating todo
-        todoToBeUpdated.todo = todoName;
-        res.json(TodoList);
-    }
+    //updating todo
+    todoToBeUpdated.todo = todoName;
+    todoToBeUpdated.isCompleted = isCompleted;
+    res.json(TodoList);
 });
 
 //COMPLETE TODO API
-app.put("/complete-todo", (req, res) => {
+app.patch("/todo", (req, res) => {
     const { id } = req.body;
 
     //finding index of todo-object to be updated
@@ -78,12 +86,16 @@ app.put("/complete-todo", (req, res) => {
 });
 
 //DELETE TODO
-app.delete("/delete-todo", (req, res) => {
+app.delete("/todo", (req, res) => {
     const { id } = req.body;
 
     const filteredTodoList = TodoList.filter((todo) => todo.id != id);
     TodoList = filteredTodoList;
     res.json(TodoList);
+});
+
+app.all("*", (req, res) => {
+    res.json({ message: "404 This page doesnot exists" });
 });
 
 app.listen(PORT, () => {
