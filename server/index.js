@@ -23,12 +23,16 @@ let TodoList = [
 
 //GET ALL-TODOS API
 app.get("/todo", (req, res) => {
-    res.json(TodoList);
+    res.status(200).json({ data: TodoList });
 });
 
 //ADD-TODO API
 app.post("/todo", (req, res) => {
     const { todoName } = req.body;
+
+    if (!todoName) {
+        return res.status(400).json({ message: "Todo field is required" });
+    }
 
     //id of previous todo
     const prevTodoId = TodoList[TodoList.length - 1].id;
@@ -41,7 +45,7 @@ app.post("/todo", (req, res) => {
     };
 
     TodoList.push(newTodo);
-    res.json(TodoList);
+    res.status(200).json({ data: TodoList });
 });
 
 //UPDATE TODO API
@@ -54,7 +58,7 @@ app.put("/todo", (req, res) => {
     allData.map((eachArray) => eachArray[1] === "" && keys.push(eachArray[0]));
 
     if (keys.length) {
-        res.json({ message: keys.map((key) => `Field ${key} is required`) });
+        return res.status(400).json({ message: keys.map((key) => `Field ${key} is required`) });
     }
 
     //finding index of todo-object to be updated
@@ -64,12 +68,16 @@ app.put("/todo", (req, res) => {
     //updating todo
     todoToBeUpdated.todo = todoName;
     todoToBeUpdated.isCompleted = isCompleted;
-    res.json(TodoList);
+    res.status(200).json({ data: TodoList });
 });
 
 //COMPLETE TODO API
 app.patch("/todo", (req, res) => {
     const { id } = req.body;
+
+    if (!id) {
+        return res.status(400).json({ message: "id of todo is required" });
+    }
 
     //finding index of todo-object to be updated
     const indexOfTodoObject = TodoList.findIndex((todo) => todo.id == id);
@@ -82,20 +90,24 @@ app.patch("/todo", (req, res) => {
         todoToBeCompleted.isCompleted = true;
     }
 
-    res.json(TodoList);
+    res.status(200).json({ data: TodoList });
 });
 
 //DELETE TODO
 app.delete("/todo", (req, res) => {
     const { id } = req.body;
 
+    if (!id) {
+        return res.status(400).json({ message: "id of todo is required" });
+    }
+
     const filteredTodoList = TodoList.filter((todo) => todo.id != id);
     TodoList = filteredTodoList;
-    res.json(TodoList);
+    res.status(200).json({ data: TodoList });
 });
 
 app.all("*", (req, res) => {
-    res.json({ message: "404 This page doesnot exists" });
+    res.status(404).json({ message: "404 This page doesnot exists" });
 });
 
 app.listen(PORT, () => {
