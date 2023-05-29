@@ -21,7 +21,8 @@ export default function Todo() {
     //edit state
     const [editTodo, setEditTodo] = useState("");
 
-    const API_URL = "http://localhost:5005/todo";
+    // const API_URL = "http://localhost:5005/todo";
+    const API_URL = "https://todo-server-beta-nine.vercel.app/todo";
 
     useEffect(() => {
         fetchAllTodos();
