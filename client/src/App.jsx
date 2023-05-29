@@ -4,7 +4,7 @@ import React from "react";
 import "./App.css";
 
 //components
-import Todo from "./components/Todo.Jsx";
+import Todo from "./components/Todo.jsx";
 
 function App() {
     return <Todo />;
