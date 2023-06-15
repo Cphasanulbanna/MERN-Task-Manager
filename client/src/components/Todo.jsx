@@ -126,7 +126,7 @@ export default function Todo() {
         <section className="main-container">
             <div className="shadow-box">
                 <div className="todo-main-box">
-                    <h1 className="heading">Todo List</h1>
+                    <h1 className="heading">TASKS MAANAGER</h1>
                     <div className="top-box">
                         <input
                             type="text"
@@ -140,7 +140,7 @@ export default function Todo() {
                             onClick={addTodo}
                             className="add"
                         >
-                            ADD TODO
+                            ADD TASK
                         </button>
                     </div>
                     <div className="bottom">
